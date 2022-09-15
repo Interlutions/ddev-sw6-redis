@@ -44,8 +44,8 @@ teardown() {
 @test "install from release" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get drud/ddev-sw6-redis with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get drud/ddev-sw6-redis
+  echo "# ddev get interlutions/ddev-sw6-redis with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get interlutions/ddev-sw6-redis
   ddev restart >/dev/null
 
   # Test expected configurations

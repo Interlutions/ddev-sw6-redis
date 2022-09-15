@@ -1,4 +1,4 @@
-[![tests](https://github.com/drud/ddev-varnish/actions/workflows/tests.yml/badge.svg)](https://github.com/drud/ddev-varnish/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2022.svg)
+[![tests](https://github.com/interlutions/ddev-sw6-redis/actions/workflows/tests.yml/badge.svg)](https://github.com/interlutions/ddev-sw6-redis/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2022.svg)
 
 # ddev-sw6-redis
 
