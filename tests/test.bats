@@ -3,11 +3,12 @@ setup() {
   export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
   export TESTDIR=~/tmp/test-addon-template
   mkdir -p $TESTDIR
-  export PROJNAME=test-addon-template
+  export PROJNAME=test-sw6-redis
   export DDEV_NON_INTERACTIVE=true
   ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
   cd "${TESTDIR}"
   ddev config --project-name=${PROJNAME}
+  mkdir -p "${TESTDIR}/project/config/packages"
   ddev start -y >/dev/null
 }
 
@@ -24,9 +25,20 @@ teardown() {
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
   ddev restart
-  # Do something here to verify functioning extra service
-  # For extra credit, use a real CMS with actual config.
-  # ddev exec "curl -s elasticsearch:9200" | grep "${PROJNAME}-elasticsearch"
+
+  # Test expected configurations
+  ddev redis-cli INFO | grep "^redis_version:6."
+
+  [ -f project/config/packages/sw6-redis.yaml ]
+  ddev exec 'echo $REDIS_CACHE_HOST' | grep "redis"
+  ddev exec 'echo $REDIS_CACHE_PORT' | grep "6379"
+  ddev exec 'echo $REDIS_CACHE_DB' | grep "0"
+  ddev exec 'echo $REDIS_SESSION_HOST' | grep "redis"
+  ddev exec 'echo $REDIS_SESSION_PORT' | grep "6379"
+  ddev exec 'echo $REDIS_SESSION_DB' | grep "2"
+  ddev exec 'echo $REDIS_FPC_HOST' | grep "redis"
+  ddev exec 'echo $REDIS_FPC_PORT' | grep "6379"
+  ddev exec 'echo $REDIS_FPC_DB' | grep "1"
 }
 
 @test "install from release" {
@@ -35,6 +47,17 @@ teardown() {
   echo "# ddev get drud/ddev-addon-template with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get drud/ddev-addon-template
   ddev restart >/dev/null
-  # Do something useful here that verifies the add-on
-  # ddev exec "curl -s elasticsearch:9200" | grep "${PROJNAME}-elasticsearch"
+
+  # Test expected configurations
+  ddev redis-cli INFO | grep "^redis_version:6."
+  [ -f project/config/packages/sw6-redis.yaml ]
+  ddev exec 'echo $REDIS_CACHE_HOST' | grep "redis"
+  ddev exec 'echo $REDIS_CACHE_PORT' | grep "6379"
+  ddev exec 'echo $REDIS_CACHE_DB' | grep "0"
+  ddev exec 'echo $REDIS_SESSION_HOST' | grep "redis"
+  ddev exec 'echo $REDIS_SESSION_PORT' | grep "6379"
+  ddev exec 'echo $REDIS_SESSION_DB' | grep "2"
+  ddev exec 'echo $REDIS_FPC_HOST' | grep "redis"
+  ddev exec 'echo $REDIS_FPC_PORT' | grep "6379"
+  ddev exec 'echo $REDIS_FPC_DB' | grep "1"
 }
