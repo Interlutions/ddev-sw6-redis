@@ -1,7 +1,7 @@
 setup() {
   set -eu -o pipefail
   export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
-  export TESTDIR=~/tmp/test-addon-template
+  export TESTDIR=~/tmp/test-sw6-redis
   mkdir -p $TESTDIR
   export PROJNAME=test-sw6-redis
   export DDEV_NON_INTERACTIVE=true
@@ -44,8 +44,8 @@ teardown() {
 @test "install from release" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get drud/ddev-addon-template with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get drud/ddev-addon-template
+  echo "# ddev get drud/ddev-sw6-redis with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get drud/ddev-sw6-redis
   ddev restart >/dev/null
 
   # Test expected configurations
