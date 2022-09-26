@@ -4,10 +4,11 @@ pre_install_actions:
 
 project_files:
 - docker-compose.sw6-redis.yaml
-- commands/redis/
+- commands/host/copy-redis-config
+- commands/redis/redis-cli
 - redis/
 
 global_files:
 
 post_install_actions:
-  - redis/scripts/copy-config.sh
+  - ddev copy-redis-config
