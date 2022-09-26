@@ -29,7 +29,7 @@ teardown() {
   # Test expected configurations
   ddev redis-cli INFO | grep "^redis_version:6."
 
-  [ -f project/config/packages/sw6-redis.yaml ]
+  [ -f project/config/packages/sw6-redis.local.yaml ]
   ddev exec 'echo $REDIS_CACHE_HOST' | grep "redis"
   ddev exec 'echo $REDIS_CACHE_PORT' | grep "6379"
   ddev exec 'echo $REDIS_CACHE_DB' | grep "0"
@@ -50,7 +50,7 @@ teardown() {
 
   # Test expected configurations
   ddev redis-cli INFO | grep "^redis_version:6."
-  [ -f project/config/packages/sw6-redis.yaml ]
+  [ -f project/config/packages/sw6-redis.local.yaml ]
   ddev exec 'echo $REDIS_CACHE_HOST' | grep "redis"
   ddev exec 'echo $REDIS_CACHE_PORT' | grep "6379"
   ddev exec 'echo $REDIS_CACHE_DB' | grep "0"

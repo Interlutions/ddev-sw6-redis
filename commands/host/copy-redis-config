@@ -1,0 +1,38 @@
+#!/bin/bash
+#ddev-generated
+## Description: Copy redis configuration to shopware packages folder
+## Usage: copy-redis-config
+
+set -e
+
+if [[ $DDEV_PROJECT_TYPE != php ]] && [[ $DDEV_PROJECT_TYPE != shopware6 ]] ;
+then
+  echo Project must either be php or shopware6
+  exit 0
+fi
+
+if ( ddev debug configyaml 2>/dev/null | grep 'disable_settings_management:\s*true' >/dev/null 2>&1 ) ; then
+  echo Settings management must not be disabled
+  exit 0
+fi
+
+if [[ -d "${DDEV_APPROOT}/config/packages/" ]] ;
+then
+  PACKAGES_PATH="${DDEV_APPROOT}/config/packages/"
+elif [[ -d "${DDEV_APPROOT}/project/config/packages" ]] ;
+then
+  PACKAGES_PATH="${DDEV_APPROOT}/project/config/packages/"
+elif [[ -d "${DDEV_APPROOT}/${DDEV_DOCROOT}/../config/packages" ]] ;
+then
+  PACKAGES_PATH="${DDEV_APPROOT}/${DDEV_DOCROOT}/../config/packages"
+else
+  echo Packages path not found
+  exit 0
+fi
+
+if [[ ! -f "${PACKAGES_PATH}/sw6-redis.local.yaml" ]];
+then
+    cp -n redis/config/sw6-redis.yaml "${PACKAGES_PATH}/sw6-redis.local.yaml"
+else
+    echo File copy skipped, config file sw6-redis.local.yaml already present
+fi
